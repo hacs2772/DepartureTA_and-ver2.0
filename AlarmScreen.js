@@ -37,11 +37,11 @@ export default Alarm;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fefce8',
+    backgroundColor: 'white',
   },
   header: {
     flex: 0.15,
-    backgroundColor: "#fde047",
+    backgroundColor: "#e1f5fe",
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
@@ -50,12 +50,12 @@ const styles = StyleSheet.create({
     flex: 1.1,
   },
   headertext: {
-    color: "white",
+    color: "#4fc3f7",
     fontWeight: "bold",
     fontSize: 40,
   },
   xxxtext: {
-    color: "#fdba74",
+    color: "#b2ebf2",
     fontSize: 20
   }
 });

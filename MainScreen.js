@@ -15,8 +15,12 @@ function Main({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.row, styles.header]}>
-        <ImageBackground source={require("./rogo1.jpg")} style={styles.bgImage}>
-        <View style={styles.header}></View>
+        <ImageBackground source={require("./rogo1-1.jpg")} 
+        resizeMode="stretch" style={styles.bgImage}>
+        
+        <View style={styles.header}>
+        
+        </View>
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.button}
@@ -48,13 +52,15 @@ export default Main;
 
 const styles = StyleSheet.create({
   header: {flex:1},
-  bgImage: {width: '100%', height: '100%'},
+  bgImage: {width: '100%', height: '100%',
+
+  },
   container: {
     flex: 1,
   },
   container: {
     flex: 1,
-    backgroundColor: '#fef08a',
+    backgroundColor: '#e1f5fe',
   },
   appname: {
     fontSize: 60,
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 300,
     height: 50,
-    backgroundColor: "#ffebee",
+    backgroundColor: "#e1f5fe",
     marginBottom: 25,
     borderRadius: 30,
     shadowOpacity: 3,
@@ -79,7 +85,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     fontSize: 30,
-    color: "#ef5350",
+    color: "#4aa9ff",
     fontWeight: "bold",
   },
   text2: {
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
   },
   text3: {
     fontSize: 30,
-    color: "#ff8f00",
+    color: "#4aa9ff",
     fontWeight: "bold",
   },
 });
