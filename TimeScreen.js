@@ -57,8 +57,9 @@ function Insert({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.appname}>한경대학교 </Text>
-        <Text style={styles.appname}>출발시간 알림이</Text>
+        <Text style={styles.appname}>출발하는 요일 </Text>
+        <Text style={styles.appname}>도착 원하는 시간을</Text>
+        <Text style={styles.appname}>선택하세요</Text>
       </View>
       <View style={styles.content}>
         <View style={styles.input}>
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   appname: {
-    fontSize: 60,
+    fontSize: 30,
     fontWeight: "bold",
     marginBottom: 10,
   },

@@ -15,13 +15,15 @@ function Alarm({ navigation }) {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate("HOME")}>
           <Text style={styles.headertext}>
-            <Icon name="arrow-back-circle-outline" size={40}></Icon>
+            <Icon name="arrow-back-circle-outline" size={50}></Icon>
+            <Text style={styles.xxxtext}>{"\n"}back</Text>
           </Text>
         </TouchableOpacity>
         <Text style={styles.headertext}>알람 목록</Text>
         <TouchableOpacity onPress={() => navigation.navigate("HOME")}>
           <Text style={styles.headertext}>
-            <Icon name="menu-outline" size={40}></Icon>
+            <Icon name="menu-outline" size={55}></Icon>
+            <Text style={styles.xxxtext}>{"\n"}menu</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -35,10 +37,11 @@ export default Alarm;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fefce8',
   },
   header: {
     flex: 0.15,
-    backgroundColor: "#2c2c2c",
+    backgroundColor: "#fde047",
     alignItems: "center",
     justifyContent: "space-around",
     flexDirection: "row",
@@ -48,6 +51,11 @@ const styles = StyleSheet.create({
   },
   headertext: {
     color: "white",
+    fontWeight: "bold",
     fontSize: 40,
   },
+  xxxtext: {
+    color: "#fdba74",
+    fontSize: 20
+  }
 });
