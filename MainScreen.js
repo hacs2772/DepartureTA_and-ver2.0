@@ -11,6 +11,7 @@ import {
   ImageBackground,
 } from "react-native";
 
+
 function Main({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   text1: {
     fontSize: 30,
     color: "#4aa9ff",
-    fontWeight: "bold",
+    fontWeight: '800',
   },
   text2: {
     fontSize: 30,

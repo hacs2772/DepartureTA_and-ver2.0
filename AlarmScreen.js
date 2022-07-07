@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,28 +6,110 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("db.db");
 
 function Alarm({ navigation }) {
+  let [data, setdata] = useState([]);
+  useEffect(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        `select * from home where day is not null`,
+        [],
+        (tx, result) => {
+          let name = [];
+          for (let i = 0; i < result.rows.length; ++i) {
+            name.push(result.rows._array[i]);
+            console.log(result.rows.item(i));
+          }
+          setdata(name);
+        }
+      );
+    });
+  }, []);
+  const goTime = (a) => {
+    let time = new Date();
+    let current = time.getHours() * 60 + time.getMinutes();
+    let hour = parseInt((current - a) / 60);
+    let minute = (current - a) % 60;
+    return `${hour}시 ${minute}분`;
+  };
+  const getTime = (b) => {
+    let time = new Date();
+    let current = time.getHours() * 60 + time.getMinutes() + b;
+    let hour = parseInt(current / 60);
+    let minute = current % 60;
+    if (hour >= 24) {
+      hour = Math.abs(hour - 24);
+    }
+    return `${hour}시 ${minute}분`;
+  };
+  const ItemRender = ({ item }) => (
+    <SafeAreaView>
+      <View style={styles.list}>
+        <View style={styles.day}>
+          <Text
+            style={{
+              fontSize: 35,
+              textAlign: "center",
+              lineHeight: 80,
+              color: "gray",
+              fontWeight: "bold",
+            }}
+          >
+            {item.day}
+          </Text>
+        </View>
+        <View style={styles.time}>
+          <Text
+            style={{
+              fontSize: 26,
+              fontWeight: "bold",
+              marginTop: 10,
+            }}
+          >
+            출발시간 : {goTime(item.totalTime)}
+          </Text>
+          <Text style={{ fontSize: 26, fontWeight: "bold", marginBottom: 10 }}>
+            도착시간 : {getTime(item.totalTime)}
+          </Text>
+          <Text style={{ fontSize: 18 }}>
+            요금:{item.fare.toLocaleString()}원
+          </Text>
+        </View>
+
+        <View style={styles.path}>
+          <Icon size={50} name="bus-outline"></Icon>
+          <Text>{item.number}</Text>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate("HOME")}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Text style={styles.headertext}>
-            <Icon name="arrow-back-circle-outline" size={50}></Icon>
-            <Text style={styles.xxxtext}>{"\n"}back</Text>
+            <Icon name="chevron-back-outline" size={55}></Icon>
           </Text>
         </TouchableOpacity>
         <Text style={styles.headertext}>알람 목록</Text>
         <TouchableOpacity onPress={() => navigation.navigate("HOME")}>
           <Text style={styles.headertext}>
             <Icon name="menu-outline" size={55}></Icon>
-            <Text style={styles.xxxtext}>{"\n"}menu</Text>
           </Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.contents}></View>
+      <View style={styles.contents}>
+        <FlatList
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => <ItemRender item={item} />}
+        />
+      </View>
     </SafeAreaView>
   );
 }
@@ -37,25 +119,49 @@ export default Alarm;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "#e1f5fe",
   },
   header: {
     flex: 0.15,
-    backgroundColor: "#e1f5fe",
+    borderBottomColor: "gray",
+    borderBottomWidth: 1,
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     flexDirection: "row",
   },
   contents: {
     flex: 1.1,
+    backgroundColor: "white",
   },
   headertext: {
-    color: "#4fc3f7",
     fontWeight: "bold",
     fontSize: 40,
   },
-  xxxtext: {
-    color: "#b2ebf2",
-    fontSize: 20
-  }
+  list: {
+    height: 100,
+    borderColor: "#fefce8",
+    borderStyle: "solid",
+    borderBottomWidth: 1,
+  },
+  path: {
+    position: "absolute",
+    right: 0,
+    width: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+  },
+  day: {
+    justifyContent: "center",
+    position: "absolute",
+    width: 80,
+    height: 98,
+    backgroundColor: "#f2f2f2",
+  },
+  time: {
+    position: "absolute",
+    right: 95,
+    alignItems: "flex-start",
+    height: 100,
+  },
 });
