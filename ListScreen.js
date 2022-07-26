@@ -1,46 +1,117 @@
 import React, { useState, useEffect } from "react";
+
 import {
   View,
   Text,
-  Button,
   StyleSheet,
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Alert,
+  Button,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import { Menu, MenuItem, MenuDivider } from "react-native-material-menu";
 import * as SQLite from "expo-sqlite";
+import Getroute from "./getroute";
+import InTime from "./InTime";
+import OutTime from "./OutTime";
+import { es } from "date-fns/locale";
+
 const db = SQLite.openDatabase("db.db");
 
 function Lists({ navigation, route }) {
-  const [data, setdata] = useState([]);
-  const [sortdata, setsortdata] = useState([]);
-  useEffect(() => {
+  let [data, setdata] = useState([]);
+  let [sortdata, setsortdata] = useState([]);
+  let [Okay, setOkay] = useState(false);
+  let [mode, setmode] = useState(false);
+
+  async function T(incity, outcity) {
+    let i = await InTime(incity, route.params.id, route.params.ttime);
+    console.log("i", i);
+    let e = await ReadDB(i);
+    let t = await OutTime(outcity, route.params.id, route.params.ttime);
+    let j = await ReadDB(t);
+    console.log("t", t);
+    // let e = await ReadDB(i, t);
+  }
+  async function ReadDB(a) {
+    console.log("db시작");
+    let all = [];
     db.transaction((tx) => {
-      // 데이터 수정 및 추가 tx.executeSql(`update bye set time ='11:30' WHERE id = '50'`),
-      // 레코드 삭제 tx.executeSql(`DELETE from home WHERE id = '1229'`);
-      tx.executeSql(`select * from home`, [], (tx, result) => {
-        let name = [];
-        for (let i = 0; i < result.rows.length; ++i) {
-          name.push(result.rows._array[i]);
+      tx.executeSql(`select * from InCity`, [], (tx, result) => {
+        if (result.rows.length === 0) {
+          console.log("db is empty");
+        } else {
+          for (let i = 0; i < result.rows.length; ++i) {
+            if (all.includes(result.rows._array)) {
+            } else {
+              all.push(result.rows._array[i]);
+              setdata(all);
+            }
+          }
         }
-        setdata(name);
+      });
+    });
+    db.transaction((tx) => {
+      tx.executeSql(`select * from Out`, [], (tx, result) => {
+        if (result.rows.length === 0) {
+          console.log("db is empty");
+        } else {
+          for (let i = 0; i < result.rows.length; ++i) {
+            if (all.includes(result.rows._array)) {
+            } else {
+              all.push(result.rows._array[i]);
+              setdata(all);
+            }
+          }
+        }
+        setOkay(true);
+        console.log("All", all);
+      });
+    });
+  }
+  useEffect(() => {
+    let incity = [];
+    let outcity = [];
+    db.transaction(async (tx) => {
+      tx.executeSql(`DELETE from Out where Schedule`);
+      tx.executeSql(`DELETE from InCity where Schedule`);
+      tx.executeSql(`select * from InCity`, [], (tx, result) => {
+        if (result.rows.length === 0) {
+          console.log("db is empty");
+        }
+        for (let i = 0; i < result.rows.length; i++) {
+          incity.push(result.rows._array[i]);
+        }
+      });
+      tx.executeSql(`select * from Out`, [], (tx, result) => {
+        if (result.rows.length === 0) {
+          console.log("db is empty");
+        }
+        for (let i = 0; i < result.rows.length; i++) {
+          outcity.push(result.rows._array[i]);
+        }
+        T(incity, outcity);
       });
     });
   }, []);
 
+  let [a, seta] = useState("");
   useEffect(() => {
     setsortdata(sortdata);
   }, []);
-
-  const sort_Array_Alphabetically = () => {
-    setsortdata(
-      data.sort(function (a, b) {
-        return parseFloat(a.totalTime) - parseFloat(b.totalTime);
-      })
-    );
+  let [visible, setVisible] = useState(false);
+  const hideMenu = () => {
+    setVisible(false);
   };
+  const showMenu = () => setVisible(true);
+  // const sort_Array_Alphabetically = () => {
+  //   setsortdata(
+  //     data.sort(function (a, b) {
+  //       return parseFloat(a.totalTime) - parseFloat(b.totalTime);
+  //     })
+  //   );
+  // };
   const setTime = (a) => {
     let time = new Date();
     let current = time.getHours() * 60 + time.getMinutes();
@@ -48,103 +119,145 @@ function Lists({ navigation, route }) {
     let minute = (current - a) % 60;
     return `${hour}시 ${minute}분`;
   };
+
   const ItemRender = ({ item }) => (
-    <TouchableOpacity
-      onPress={() =>
-        navigation.navigate("Route", {
-          id: item.id,
-          ns: route.params.id,
-        })
-      }
-    >
-      <SafeAreaView>
-        <View style={styles.list}>
-          <Text style={styles.itemtime}>
-            도착시간 : {setTime(item.totalTime)}
+    <TouchableOpacity>
+      <View style={styles.list}>
+        <Text style={styles.itemtime}>
+          출발시간 :
+          <Text
+            style={
+              item.Schedule === "운행시간 전 입니다."
+                ? styles.itemtime2
+                : styles.itemtime
+            }
+          >
+            {item.Schedule}
           </Text>
-          <View style={styles.path}>
+        </Text>
+        <View style={styles.path}>
+          {item.PathType === 2 ? (
             <Icon size={50} name="bus-outline"></Icon>
-            <Text>{item.number}</Text>
-          </View>
-          <Text style={styles.fare}>요금 : {item.fare}원</Text>
+          ) : (
+            <Icon size={50} name="train-outline"></Icon>
+          )}
+
+          <Text>{item.Name}</Text>
         </View>
-      </SafeAreaView>
+        <Text style={styles.fare}>요금 : {item.Fare.toLocaleString()}원</Text>
+      </View>
     </TouchableOpacity>
   );
-  if (route.params.ttime <= 54020) {
-    if (route.params.id === "화" || "수" || "목" || "금") {
-      return(
-        <View style={styles.footer}>
-          <Button
-            title = "조건11-2-32"
-            onPress = {() => Alert.alert("셔틀버스")}
-          />
-        </View>
-      )
-    } else if (route.params.id === "월") {
-      return(
-        <View style={styles.footer}>
-          <Button
-            title = "조건11-2-31"
-            onPress = {() => Alert.alert("셔틀버스")}
-          />
-        </View>
-      )
-    }
-  } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000){
-    return(
-      <View style={styles.footer}>
-        <Button
-          title = "조건12-2"
-          onPress = {() => Alert.alert("셔틀버스")}
-        />
-      </View>
-    )
-  }
-  
+  // if (route.params.ttime <= 54020) {
+  //   if (route.params.id === "화" || "수" || "목" || "금") {
+  //     return (
+  //       <View style={styles.footer}>
+  //         <Button title="조건11-2-32" onPress={() => Alert.alert("셔틀버스")} />
+  //       </View>
+  //     );
+  //   } else if (route.params.id === "월") {
+  //     return (
+  //       <View style={styles.footer}>
+  //         <Button title="조건11-2-31" onPress={() => Alert.alert("셔틀버스")} />
+  //       </View>
+  //     );
+  //   }
+  // } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000) {
+  //   return (
+  //     <View style={styles.footer}>
+  //       <Button title="조건12-2" onPress={() => Alert.alert("셔틀버스")} />
+  //     </View>
+  //   );
+  // }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+            Getroute();
+          }}
+        >
           <Text style={styles.headertext}>
             <Icon name="chevron-back-outline" size={55}></Icon>
           </Text>
         </TouchableOpacity>
         <Text style={styles.headertext}>이동 목록</Text>
-        <TouchableOpacity onPress={() => sort_Array_Alphabetically()}>
-          <Text style={styles.headertext}>
-            <Icon name="menu-outline" size={55}></Icon>
-          </Text>
-        </TouchableOpacity>
+        <Menu
+          visible={visible}
+          anchor={
+            <Text onPress={showMenu} style={styles.headertext}>
+              <Icon name="menu-outline" size={55}></Icon>
+            </Text>
+          }
+          onRequestClose={hideMenu}
+        >
+          <MenuItem
+            onPress={() => {
+              seta("빠른시간 순");
+              setVisible(false);
+            }}
+          >
+            빠른시간 순 {"    "}
+            {a === "빠른시간 순" ? (
+              <Icon name="checkmark-outline" size={20} />
+            ) : (
+              ""
+            )}
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem
+            onPress={() => {
+              seta("최저요금 순");
+              setVisible(false);
+            }}
+          >
+            최저요금 순{"    "}
+            {a === "최저요금 순" ? (
+              <Icon
+                style={{ direction: "rtl" }}
+                name="checkmark-outline"
+                size={20}
+              />
+            ) : (
+              ""
+            )}
+          </MenuItem>
+          <MenuDivider />
+          <MenuItem
+            onPress={() => {
+              seta("최저환승 순");
+              setVisible(false);
+            }}
+          >
+            최저환승 순{"    "}
+            {a === "최저환승 순" ? (
+              <Icon
+                style={{ direction: "rtl" }}
+                name="checkmark-outline"
+                size={20}
+              />
+            ) : (
+              ""
+            )}
+          </MenuItem>
+        </Menu>
       </View>
       <View style={styles.contents}>
-        <FlatList
-          keyExtractor={(item) => item.id}
-          extraData={data}
-          data={data}
-          renderItem={(itemData) => <ItemRender item={itemData.item} />}
-        />
+        {Okay ? (
+          <FlatList
+            keyExtractor={(item, index) => index.toString()}
+            extraData={data}
+            data={data}
+            renderItem={(itemData) => <ItemRender item={itemData.item} />}
+          />
+        ) : (
+          <Text>데이터를 받아오고 있습니다.</Text>
+        )}
       </View>
-      <Text>{route.params.id}</Text>
     </SafeAreaView>
   );
 }
-
-function sutlebus(){
-    if (route.params.id === "월") {
-      return(
-        <View>
-          <Text style={styles.bustext}>bus bus bus</Text>
-        </View>
-      )
-    } else {
-      return(
-        <View>
-          <Text style={styles.bustext}>bus bus</Text>
-        </View>
-      )
-    }
-  }
 
 export default Lists;
 const styles = StyleSheet.create({
@@ -182,9 +295,16 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderBottomWidth: 2,
   },
+  no: {},
   itemtime: {
     textAlign: "left",
     fontSize: 33,
+  },
+  itemtime2: {
+    textAlign: "left",
+    fontSize: 25,
+    fontWeight: "bold",
+    fontStyle: "italic",
   },
   path: {
     position: "absolute",
@@ -195,25 +315,4 @@ const styles = StyleSheet.create({
   fare: {
     fontSize: 20,
   },
-
-  bustext: {
-    fontSize: 20,
-    fontWeight: "bold",
-    alignItems:'center'
-  },
-  button: {
-    alignItems: "center",
-  },
-  footer: {
-    position: 'absolute',
-    flex:0.3,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor:'green',
-    flexDirection:'row',
-    height:60,
-    alignItems:'center',
-  },
-
 });

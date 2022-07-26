@@ -6,12 +6,25 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import Getroute from "./getroute";
+import OutTime from "./OutTime";
+import InTime from "./InTime";
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { format } from "date-fns";
-import Icon from "react-native-vector-icons/Ionicons";
-function Insert({ navigation }) {
+import * as SQLite from "expo-sqlite";
+const db = SQLite.openDatabase("db.db");
+
+function Insert({ navigation, route }) {
+  async function T() {
+    let t = await Getroute(route.params.lat, route.params.long);
+    setmode(t);
+  }
+  useEffect(() => {
+    T();
+  }, []);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
@@ -24,13 +37,12 @@ function Insert({ navigation }) {
     { label: "일", value: "일" },
   ]);
 
-  const [mode, setmode] = useState("date");
+  const [mode, setmode] = useState(false);
   const [date, onChangeDate] = useState(new Date(0));
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
-    setmode("time");
   };
 
   const hideDatePicker = () => {
@@ -38,20 +50,25 @@ function Insert({ navigation }) {
   };
 
   const handleConfirm = (time) => {
-    console.warn("A date has been picked: ", time);
+    console.log("A date has been picked: ", time);
+
     onChangeDate(time);
     hideDatePicker();
   };
-  function check() {
+  function check(value) {
     if (value) {
       let a = departtime.split(":");
-      let dtime = a[0] * 60 + a[1];
+      let dtime = Number(a[0] * 60) + Number(a[1]);
+      // InTime(value, dtime);
+      console.log(value, dtime);
       navigation.navigate("List", {
         id: value,
-        ttime: dtime,
+        ttime: Number(dtime),
       });
+
+      // OutTime(value, dtime);
     } else {
-      alert("요일을 선택하세요!");
+      Alert.alert("요일을 입력해 주세요!");
     }
   }
   let departtime = format(new Date(date), "HH:mm");
@@ -61,7 +78,7 @@ function Insert({ navigation }) {
       <View style={styles.header}>
         <Image
           source={require("./logo.png")}
-          style={{ width: 300, height: 300, justifyContent: "center" }}
+          style={{ width: "100%", height: "100%", justifyContent: "center" }}
           resizeMode="cover"
         ></Image>
       </View>
@@ -128,9 +145,24 @@ function Insert({ navigation }) {
             date={date}
             isDarkModeEnabled={true}
           />
-          <TouchableOpacity style={styles.button} onPress={() => check()}>
-            <Text style={styles.comfirm}>확인</Text>
+          <TouchableOpacity
+            disabled={mode ? false : true}
+            style={mode ? styles.button : styles.button2}
+            onPress={() => check(value)}
+          >
+            <Text style={mode ? styles.comfirm : styles.comfirm2}>
+              {mode ? "확인" : "데이터 수집 중"}
+            </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate("Shuttle", {lat: route.params.lat, long: route.params.long
+});
+              }}
+            >
+              <Text style={styles.shuttletext}>셔틀 버스</Text>
+            </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>
@@ -142,10 +174,12 @@ export default Insert;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e1f5fe",
+    display: "flex",
+    backgroundColor: "white",
   },
   header: {
-    flex: 0.8,
+    flex: 0.9,
+    display: "flex",
     alignItems: "center",
     backgroundColor: "white",
   },
@@ -156,38 +190,59 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    flex: 1.1,
+    flex: 0.8,
+    display: "flex",
     alignItems: "center",
   },
   input: {
+    display: "flex",
     width: 300,
     height: 350,
     backgroundColor: "white",
-    marginTop: 20,
+    marginTop: 30,
     justifyContent: "flex-start",
     borderRadius: 30,
   },
   text: {
-    marginTop: 15,
-    fontSize: 25,
+    fontSize: 18,
     fontWeight: "bold",
     marginLeft: 15,
     marginBottom: 10,
   },
   button: {
-    marginTop: 60,
+    display: "flex",
+    marginTop: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    width: 290,
+    left: 5,
+    height: 50,
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 0.4,
+    borderRadius: 25,
+  },
+  button2: {
+    display: "flex",
+    marginTop: 40,
     justifyContent: "center",
     alignItems: "center",
     width: 300,
     height: 50,
-    backgroundColor: "white",
-    borderTopColor: "gray",
-    borderTopWidth: 1,
-    borderRadius: 30,
+    backgroundColor: "#f5f5f5",
+    borderColor: "#f0f0f0",
+    borderWidth: 1,
+    borderRadius: 15,
+  },
+  comfirm2: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "gray",
   },
   comfirm: {
     fontSize: 30,
     fontWeight: "bold",
+    color: "#0000a0",
   },
   viewtime: {
     marginLeft: 5,
@@ -203,7 +258,11 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   picker: {
-    marginBottom: 50,
+    marginBottom: 38,
     alignItems: "center",
+  },
+  shuttletext: {
+    fontSize: 30,
+    fontWeight: "bold",
   },
 });
