@@ -47,18 +47,29 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
     dist = dist * 60 * 1.1515 * 1.609344 * 1000;
     if (dist < 100) dist = Math.round(dist / 10) * 10;
     else dist = Math.round(dist / 100) * 100;
-    if (dist < 10000)
-    return (
-      <SafeAreaView style={styles.container}>
-      <View style={[styles.row, styles.header]}>
-        <View style={styles.footer}>
-          <Text>{route.params.lat}</Text>
-          <Text>{route.params.long}</Text>
-          <Text>{dist/1000}km</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-    ); else null
+    if (dist < 10000){
+      if (route.params.ttime <= 54020) {
+        if (route.params.id === "화" || "수" || "목" || "금") {
+          return (
+            <View style={styles.footer}>
+            <Button title="조건11-2-32 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />  
+          </View>
+          );
+        } else if (route.params.id === "월") {
+          return (
+            <View style={styles.footer}>
+              <Button title="조건11-2-31 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+            </View>
+          );
+        }
+      } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000) {
+        return (
+          <View style={styles.footer}>
+            <Button title="조건12-2 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+          </View>
+        );
+      }
+    }
     //----------------------------------------------수원↓
   if ((lat1 == sw1) && (lon1 == sw2))
     return 0;  
@@ -75,18 +86,29 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
     dist2 = dist2 * 60 * 1.1515 * 1.609344 * 1000;
     if (dist2 < 100) dist2 = Math.round(dist2 / 10) * 10;
     else dist2 = Math.round(dist2 / 100) * 100;
-    if (dist2 < 1000000)
-    return (
-      <SafeAreaView style={styles.container}>
-      <View style={[styles.row, styles.header]}>
-        <View style={styles.footer}>
-          <Text>{route.params.lat}</Text>
-          <Text>{route.params.long}</Text>
-          <Text>{dist2/1000}km</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-    ); else null
+    if (dist2 < 10000){
+      if (route.params.ttime <= 54020) {
+        if (route.params.id === "화" || "수" || "목" || "금") {
+          return (
+            <View style={styles.footer}>
+            <Button title="조건11-2-32 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />  
+          </View>
+          );
+        } else if (route.params.id === "월") {
+          return (
+            <View style={styles.footer}>
+              <Button title="조건11-2-31 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+            </View>
+          );
+        }
+      } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000) {
+        return (
+          <View style={styles.footer}>
+            <Button title="조건12-2 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+          </View>
+        );
+      }
+    }
     //----------------------------------------------기흥↓
   if ((lat1 == kh1) && (lon1 == kh2))
     return 0;
@@ -103,18 +125,29 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
     dist3 = dist3 * 60 * 1.1515 * 1.609344 * 1000;
     if (dist3 < 100) dist3 = Math.round(dist3 / 10) * 10;
     else dist3 = Math.round(dist3 / 100) * 100;
-    if (dist3 < 10000)
-    return (
-      <SafeAreaView style={styles.container}>
-      <View style={[styles.row, styles.header]}>
-        <View style={styles.footer}>
-          <Text>{route.params.lat}</Text>
-          <Text>{route.params.long}</Text>
-          <Text>{dist3/1000}km</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-    ); else null
+    if (dist3 < 10000){
+      if (route.params.ttime <= 54020) {
+        if (route.params.id === "화" || "수" || "목" || "금") {
+          return (
+            <View style={styles.footer}>
+            <Button title="조건11-2-32 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />  
+          </View>
+          );
+        } else if (route.params.id === "월") {
+          return (
+            <View style={styles.footer}>
+              <Button title="조건11-2-31 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+            </View>
+          );
+        }
+      } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000) {
+        return (
+          <View style={styles.footer}>
+            <Button title="조건12-2 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+          </View>
+        );
+      }
+    }
     //----------------------------------------------잠실↓
   if ((lat1 == js1) && (lon1 == js2))
     return 0;
@@ -131,18 +164,29 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
     dist4 = dist4 * 60 * 1.1515 * 1.609344 * 1000;
     if (dist4 < 100) dist4 = Math.round(dist4 / 10) * 10;
     else dist4 = Math.round(dist4 / 100) * 100;
-    if (dist4 < 10000)
-    return (
-      <SafeAreaView style={styles.container}>
-      <View style={[styles.row, styles.header]}>
-        <View style={styles.footer}>
-          <Text>{route.params.lat}</Text>
-          <Text>{route.params.long}</Text>
-          <Text>{dist4/1000}km</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-    ); else null
+    if (dist4 < 10000){
+      if (route.params.ttime <= 54020) {
+        if (route.params.id === "화" || "수" || "목" || "금") {
+          return (
+            <View style={styles.footer}>
+            <Button title="조건11-2-32 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />  
+          </View>
+          );
+        } else if (route.params.id === "월") {
+          return (
+            <View style={styles.footer}>
+              <Button title="조건11-2-31 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+            </View>
+          );
+        }
+      } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000) {
+        return (
+          <View style={styles.footer}>
+            <Button title="조건12-2 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+          </View>
+        );
+      }
+    }
     //----------------------------------------------부평↓
   if ((lat1 == bp1) && (lon1 == bp2))
     return 0;
@@ -159,32 +203,30 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
     dist5 = dist5 * 60 * 1.1515 * 1.609344 * 1000;
     if (dist5 < 100) dist5 = Math.round(dist5 / 10) * 10;
     else dist5 = Math.round(dist5 / 100) * 100;
-    if (dist5 < 10000)
-    return (
-      <SafeAreaView style={styles.container}>
-      <View style={[styles.row, styles.header]}>
-        <View style={styles.footer}>
-          <Text>{route.params.lat}</Text>
-          <Text>{route.params.long}</Text>
-          <Text>{dist5/1000}km</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-    ); else null
+    if (dist5 < 10000){
+      if (route.params.ttime <= 54020) {
+        if (route.params.id === "화" || "수" || "목" || "금") {
+          return (
+            <View style={styles.footer}>
+            <Button title="조건11-2-32 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />  
+          </View>
+          );
+        } else if (route.params.id === "월") {
+          return (
+            <View style={styles.footer}>
+              <Button title="조건11-2-31 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+            </View>
+          );
+        }
+      } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000) {
+        return (
+          <View style={styles.footer}>
+            <Button title="조건12-2 / 셔틀버스+기타 이동수단 붙여야함" onPress={() => Alert.alert("셔틀버스")} />
+          </View>
+        );
+      }
+    }
 //-----------------------------------------------------------끝
-    if (dist < 10000)
-    return (
-      <SafeAreaView style={styles.container}>
-      <View style={[styles.row, styles.header]}>
-        <View style={styles.footer}>
-          <Text>{route.params.lat}</Text>
-          <Text>{route.params.long}</Text>
-          <Text>{dist/1000}km</Text>
-        </View>
-      </View>
-    </SafeAreaView>
-    );
-
 }
 export default Shuttle;
 

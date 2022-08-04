@@ -79,7 +79,7 @@ function OutTime(a, value, dtime) {
           case "버스":
             response = await (
               await fetch(
-                `https://api.odsay.com/v1/api/busLaneDetail?lang=0&busID=${sub[1].busID}&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                `https://api.odsay.com/v1/api/busLaneDetail?lang=0&busID=${sub[1].busID}&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
               )
             ).json();
             if (response.error) {
@@ -165,7 +165,7 @@ function OutTime(a, value, dtime) {
             }
             response = await (
               await fetch(
-                `https://api.odsay.com/v1/api/subwayTimeTable?lang=0&stationID=${sub[1].startID}&wayCode=${sub[1].wayCode}&showExpressTime=1&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                `https://api.odsay.com/v1/api/subwayTimeTable?lang=0&stationID=${sub[1].startID}&wayCode=${sub[1].wayCode}&showExpressTime=1&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
               )
             ).json();
             if (response.error) {
@@ -245,7 +245,7 @@ function OutTime(a, value, dtime) {
             case 4:
               response = await (
                 await fetch(
-                  `https://api.odsay.com/v1/api/trainServiceTime?lang=0&startStationID=${sub[t].startID}&endStationID=${sub[t].endID}&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                  `https://api.odsay.com/v1/api/trainServiceTime?lang=0&startStationID=${sub[t].startID}&endStationID=${sub[t].endID}&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
                 )
               ).json();
               if (response.error) {
@@ -304,7 +304,7 @@ function OutTime(a, value, dtime) {
               b = [];
               response = await (
                 await fetch(
-                  `https://api.odsay.com/v1/api/expressServiceTime?lang=0&startStationID=${sub[t].startID}&endStationID=${sub[t].endID}&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                  `https://api.odsay.com/v1/api/expressServiceTime?lang=0&startStationID=${sub[t].startID}&endStationID=${sub[t].endID}&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
                 )
               ).json();
               if (response.error) {
@@ -358,7 +358,7 @@ function OutTime(a, value, dtime) {
             case 6:
               response = await (
                 await fetch(
-                  `https://api.odsay.com/v1/api/intercityServiceTime?lang=0&startStationID=${sub[t].startID}&endStationID=${sub[t].endID}&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                  `https://api.odsay.com/v1/api/intercityServiceTime?lang=0&startStationID=${sub[t].startID}&endStationID=${sub[t].endID}&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
                 )
               ).json();
               if (response.error) {
@@ -433,7 +433,7 @@ function OutTime(a, value, dtime) {
           case "버스":
             response = await (
               await fetch(
-                `https://api.odsay.com/v1/api/busLaneDetail?lang=0&busID=${sub[1].busID}&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                `https://api.odsay.com/v1/api/busLaneDetail?lang=0&busID=${sub[1].busID}&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
               )
             ).json();
             if (response.error) {
@@ -529,7 +529,7 @@ function OutTime(a, value, dtime) {
             }
             response = await (
               await fetch(
-                `https://api.odsay.com/v1/api/subwayTimeTable?lang=0&stationID=${sub[1].startID}&wayCode=${sub[1].wayCode}&showExpressTime=1&apiKey=Qg9KzIkJFCV8wMtZUhSJtcOkDn15Crje91AZj/RazU8`
+                `https://api.odsay.com/v1/api/subwayTimeTable?lang=0&stationID=${sub[1].startID}&wayCode=${sub[1].wayCode}&showExpressTime=1&apiKey=ad5MdOpLf4VYRUMULWjX/qTP/a6F2IjL7ZooxTpFBng0`
               )
             ).json();
             if (response.error) {
