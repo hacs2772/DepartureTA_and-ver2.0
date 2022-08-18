@@ -31,6 +31,39 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
   js2 = 127.10397255759656
   bp1 = 37.49100622257451
   bp2 = 126.72773855660245
+
+  
+
+  if (route.params.ttime <= 54020) {
+    if (route.params.id === "화" || "수" || "목" || "금") {
+      return(
+        <View style={styles.footer}>
+          <Button
+            title = "조건11-2-32"
+            onPress = {() => Alert.alert("셔틀버스")}
+          />
+        </View>
+      )
+    } else if (route.params.id === "월") {
+      return(
+        <View style={styles.footer}>
+          <Button
+            title = "조건11-2-31"
+            onPress = {() => Alert.alert("셔틀버스")}
+          />   
+        </View>
+      )
+    }
+  } else if (route.params.ttime <= 60020 && route.params.ttime >= 60000){
+    return(
+      <View style={styles.footer}>
+        <Button
+          title = "조건12-2"
+          onPress = {() => Alert.alert("셔틀버스")}
+        />
+      </View>
+    )
+  }
     //----------------------------------------------지제↓
   if ((lat1 == jj1) && (lon1 == jj2))
     return 0;
@@ -48,6 +81,8 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
     if (dist < 100) dist = Math.round(dist / 10) * 10;
     else dist = Math.round(dist / 100) * 100;
     if (dist < 10000)
+    
+
     return (
       <SafeAreaView style={styles.container}>
       <View style={[styles.row, styles.header]}>
@@ -83,6 +118,7 @@ function Shuttle({ route, lat1, lon1, jj1, jj2,sw1,sw2,kh1,kh2,js1,js2,bp1,bp2})
           <Text>{route.params.lat}</Text>
           <Text>{route.params.long}</Text>
           <Text>{dist2/1000}km</Text>
+          <Text>{route.params.ttime}</Text>
         </View>
       </View>
     </SafeAreaView>
