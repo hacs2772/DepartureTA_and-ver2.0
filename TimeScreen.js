@@ -60,7 +60,7 @@ function Insert({ navigation, route }) {
       let a = departtime.split(":");
       let dtime = Number(a[0] * 60) + Number(a[1]);
       // InTime(value, dtime);
-      console.log(value, dtime);
+      console.log(value, dtime,lat,long);
       navigation.navigate("List", {
         id: value,
         ttime: Number(dtime),
@@ -157,8 +157,8 @@ function Insert({ navigation, route }) {
           <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                navigation.navigate("Shuttle", {lat: route.params.lat, long: route.params.long
-});
+                navigation.navigate("Shuttle", {lat: route.params.lat, long: route.params.long, id : route.params.id ,
+                  });
               }}
             >
               <Text style={styles.shuttletext}>셔틀 버스</Text>

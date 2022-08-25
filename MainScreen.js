@@ -14,11 +14,21 @@ import { Alert } from "react-native";
 import * as SQLite from "expo-sqlite";
 import * as Location from "expo-location";
 import Getroute from "./getroute";
+import styled from 'styled-components';
 
 const db = SQLite.openDatabase("db.db");
 function Main({ navigation }) {
   const [lat, setlat] = useState(null);
   const [long, setlong] = useState(null);
+  const Detail = styled.View'
+    background-color : #0000ff;
+    width : ${props => props.sizes.width};
+    height : ${props => props.sizes.height};
+  ';
+  const [sizes,setSizes] = useState({
+    sidth:'0px',
+    height:'0px'
+  });
   db.transaction((tx) => {
     tx.executeSql(`DELETE from user`);
   });
@@ -71,12 +81,21 @@ function Main({ navigation }) {
               style={styles.button}
               onPress={() => {
                 navigation.navigate("Input", {lat: lat, long: long,
-});
+                });
               }}
             >
               <Text style={styles.text1}>시간 선택</Text>
             </TouchableOpacity>
           )}
+          <Text>dd</Text>
+        </View>
+        <View>
+            <Button title="더보기 창" onPress={changeView}/>
+        </View>
+        <View>
+          <Detail sizes={sizes}>
+            <Text>더보기 내용 추가</Text>
+          </Detail>
         </View>
       </View>
     </SafeAreaView>
