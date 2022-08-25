@@ -14,21 +14,23 @@ import { Alert } from "react-native";
 import * as SQLite from "expo-sqlite";
 import * as Location from "expo-location";
 import Getroute from "./getroute";
-import styled from 'styled-components';
+import { ScrollView,} from 'react-native';
 
 const db = SQLite.openDatabase("db.db");
 function Main({ navigation }) {
   const [lat, setlat] = useState(null);
   const [long, setlong] = useState(null);
-  const Detail = styled.View'
-    background-color : #0000ff;
-    width : ${props => props.sizes.width};
-    height : ${props => props.sizes.height};
-  ';
-  const [sizes,setSizes] = useState({
-    sidth:'0px',
-    height:'0px'
-  });
+  
+  const [line, setLine] = useState(2);
+const [isActivated, setIsActivated] = useState(false);
+
+const handleLine = () => {
+    isActivated ? setLine(2) : setLine(Number.MAX_SAFE_INTEGER);
+    setIsActivated(prev => !prev);
+  }
+
+
+
   db.transaction((tx) => {
     tx.executeSql(`DELETE from user`);
   });
@@ -63,6 +65,14 @@ function Main({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.row, styles.header]}>
+      <ScrollView>
+      <Text numberOfLines={line} ellipsizeMode="tail" onPress={()=>handleLine()}> 
+        dfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+      </Text>
+      <Text numberOfLines={line} ellipsizeMode="tail" onPress={() => setElementVisible(!elementVisible)}> 
+        gkgkgkgkggkkfvlksvlnxlnkvdsㅣㄴㅇㅁ이ㅏ푸미ㅏㄴ퓌ㅏㅊㅏ;ㅜ니ㅏㅁ푸이ㅏㅍ;ㅟㅏㄴ무리ㅏㅜ피ㅏ챁쿠피;누이ㅏㅜ피ㅏ누마ㅣㅍㄴㅇㄹㄴㅁㅇㄻㄴㅇㅍㅊ터카피뉴파ㅓㅠㅠㅣㅠㄴㅁ아ㅓ퓨ㅏㅓㄴ뮹파ㅓㅣㅠ나ㅓ유파ㅓㅠㅌ차ㅓㅣ큐파ㅓㅣㅠㄴ파ㅓㅣㅠㅌ차커ㅣ퓨ㅣㅏㅓㅌ큐처ㅏ피ㅠ
+      </Text>
+      </ScrollView>
         <View style={styles.header}>
           <Image style={styles.image} source={require("./logo.png")}></Image>
         </View>
@@ -87,15 +97,6 @@ function Main({ navigation }) {
               <Text style={styles.text1}>시간 선택</Text>
             </TouchableOpacity>
           )}
-          <Text>dd</Text>
-        </View>
-        <View>
-            <Button title="더보기 창" onPress={changeView}/>
-        </View>
-        <View>
-          <Detail sizes={sizes}>
-            <Text>더보기 내용 추가</Text>
-          </Detail>
         </View>
       </View>
     </SafeAreaView>
@@ -109,6 +110,10 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+  },
+  ddddd: {
+    height: 0,
+    width: 0,
   },
 
   container: {
