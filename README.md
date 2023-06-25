@@ -3,7 +3,7 @@
 ## PROJECT DESCRIPTION
 ![KakaoTalk_20230625_231659828_20](https://github.com/hacs2772/Screen/assets/107793142/610f3d14-b104-49c0-8157-9bcf584f2b9b)
   - 로고 이미지 입니다.
-  - 밝고 친근한 느낌으로 출발시간을 실시간으로 알려주는 어플리 케이션 입니다.
+  - 밝고 친근한 느낌으로 출발시간을 실시간으로 알려주는 어플리 케이션 입니다.</br>
 
 ## 전체적인 UI
 ![KakaoTalk_20230625_231659828_08](https://github.com/hacs2772/Screen/assets/107793142/3a4803e9-56ed-41e2-94cd-fa57f67b8a4d)
@@ -17,7 +17,7 @@
 ![KakaoTalk_20230625_231659828_02](https://github.com/hacs2772/Screen/assets/107793142/10fb0c05-f6e7-4e3f-8f5a-da4e78bbcd9f)
 ![KakaoTalk_20230625_231659828_01](https://github.com/hacs2772/Screen/assets/107793142/7f5dc521-6496-45f2-affd-197c0b829f9f)
 ![KakaoTalk_20230625_231659828](https://github.com/hacs2772/Screen/assets/107793142/9944721f-abaa-4ec8-a86d-a5c6c99009d4)
- - 안드로이드 스튜디오 내부 데이터베이스에 사용자 출발시간 값을 저하는 과정
+ - 안드로이드 스튜디오 내부 데이터베이스에 사용자 출발시간 값을 전하는 과정</br>
 
 ## 경로 목록 및 최적화 루트 화면
 ![KakaoTalk_20230625_231659828_09](https://github.com/hacs2772/Screen/assets/107793142/c80d897d-72c7-4c82-af73-1d84ddf25b01)
