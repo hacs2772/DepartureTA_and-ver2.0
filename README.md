@@ -5,7 +5,7 @@
   - 로고 이미지 입니다.
   - 밝고 친근한 느낌으로 출발시간을 실시간으로 알려주는 어플리 케이션 입니다.
 
-
+<br>
 ## 전체적인 UI
 ![KakaoTalk_20230625_231659828_08](https://github.com/hacs2772/Screen/assets/107793142/3a4803e9-56ed-41e2-94cd-fa57f67b8a4d)
 ![KakaoTalk_20230625_231659828_05](https://github.com/hacs2772/Screen/assets/107793142/7998e80b-f33b-46ca-a4a2-461bb1f0e32f)
